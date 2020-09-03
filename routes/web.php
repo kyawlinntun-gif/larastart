@@ -13,10 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function() {
     return view('welcome');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// Vue component routes
+Route::get('/dashboard', 'HomeController@index');
+Route::get('/profile', 'HomeController@index');
+Route::get('/users', 'HomeController@index');

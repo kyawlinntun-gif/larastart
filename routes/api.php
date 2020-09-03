@@ -17,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Vue route
+Route::get('/user', 'Api\UserController@index');
+Route::post('/user', 'Api\UserController@store');
+Route::delete('/user/{id}', 'Api\UserController@destroy');
+
