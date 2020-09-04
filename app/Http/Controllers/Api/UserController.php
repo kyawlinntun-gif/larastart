@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
 
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     public function index()
     {
         $users = User::latest()->get();
@@ -33,7 +43,7 @@ class UserController extends Controller
         $user->name = ucwords($request->name);
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
-        $user->type = ucfirst($request->type);
+        $user->type = $request->type;
         $user->bio = ucfirst($request->bio);
         $request->photo ? $request->photo : false;
         $user->save();
@@ -46,6 +56,30 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         $user->delete();
+
+        return response([]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, [
+            'id' => 'required|exists:users,id',
+            'name' => 'required|string|min:2|max:20',
+            'email' => 'required|email|unique:users,email,'.$request->id,
+            'password' => 'sometimes|string|min:8',
+            'type' => 'required|string|max:15',
+            'bio' => 'nullable|string|max:60',
+            'photo' => 'nullable|string|max:60'
+        ]);
+
+        $user =  User::findOrFail($id);
+        $user->name = ucwords($request->name);
+        $user->email = strtolower($request->email);
+        $user->password = Hash::make($request->password);
+        $user->type = $request->type;
+        $user->bio = $request->bio;
+        $request->photo ? $request->photo : false;
+        $user->update();
 
         return response([]);
     }

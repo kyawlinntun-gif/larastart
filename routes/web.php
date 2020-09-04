@@ -25,3 +25,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/dashboard', 'HomeController@index');
 Route::get('/profile', 'HomeController@index');
 Route::get('/users', 'HomeController@index');
+Route::get('/developer', 'HomeController@index');

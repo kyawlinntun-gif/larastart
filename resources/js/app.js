@@ -10,6 +10,7 @@ Vue.use(VueRouter)
 const Dashboard = require('./components/Dashboard.vue').default;
 const Profile = require('./components/Profile.vue').default;
 const Users = require('./components/Users.vue').default;
+const Developer = require('./components/Developer.vue').default;
 
 const routes = [{
         path: '/dashboard',
@@ -22,6 +23,10 @@ const routes = [{
     {
         path: '/users',
         component: Users
+    },
+    {
+        path: '/developer',
+        component: Developer
     }
 ]
 
@@ -78,6 +83,21 @@ const Toast = Swal.mixin({
 window.Toast = Toast
   
 window.Fire = new Vue();
+
+Vue.component(
+    'passport-clients',
+    require('./components/passport/Clients.vue').default
+);
+
+Vue.component(
+    'passport-authorized-clients',
+    require('./components/passport/AuthorizedClients.vue').default
+);
+
+Vue.component(
+    'passport-personal-access-tokens',
+    require('./components/passport/PersonalAccessTokens.vue').default
+);
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
