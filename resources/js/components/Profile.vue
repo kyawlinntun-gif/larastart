@@ -218,25 +218,20 @@
                                     <div class="tab-pane" id="settings">
                                         <form class="form-horizontal">
                                             <div class="form-group row">
-                                                <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                                                <label for="name" class="col-sm-2 col-form-label">Name</label>
                                                 <div class="col-sm-10">
-                                                    <input type="email" class="form-control" id="inputName"
-                                                        placeholder="Name">
+                                                    <input type="email" class="form-control" id="name"
+                                                        placeholder="Name" v-model="form.name" :class="{ 'is-invalid': form.errors.has('name') }">
                                                 </div>
+                                                <has-error :form="form" field="name"></has-error>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                                                <label for="email" class="col-sm-2 col-form-label">Email</label>
                                                 <div class="col-sm-10">
-                                                    <input type="email" class="form-control" id="inputEmail"
-                                                        placeholder="Email">
+                                                    <input type="email" class="form-control" id="email"
+                                                        placeholder="Email" v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }">
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="inputName2"
-                                                        placeholder="Name">
-                                                </div>
+                                                <has-error :form="form" field="email"></has-error>
                                             </div>
                                             <div class="form-group row">
                                                 <label for="inputExperience"
@@ -247,25 +242,34 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
+                                                <label for="type" class="col-sm-2 col-form-label">Type</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="inputSkills"
-                                                        placeholder="Skills">
+                                                    <select name="type" v-model="form.type" class="form-control" :class="{ 'is-invalid' : form.errors.has('type') }" id="type">
+                                                        <option value="admin" :selected="{ selected : form.type == 'admin'}">Admin</option>
+                                                        <option value="author"  :selected="{ selected : form.type == 'author'}">Author</option>
+                                                        <option value="user" :selected="{ selected : form.type == 'user'}">Standard User</option>
+                                                    </select>
+                                                    <has-error :form="form" field="type"></has-error>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <div class="offset-sm-2 col-sm-10">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox"> I agree to the <a href="#">terms and
-                                                                conditions</a>
-                                                        </label>
-                                                    </div>
+                                                <label for="bio" class="col-sm-2 coll-form-label">Bio</label>
+                                                <div class="col-sm-10">
+                                                    <textarea name="bio" id="bio" class="form-control" :class="{ 'is-invalid' : form.errors.has('bio')}" v-model="form.bio" cols="30" rows="5"></textarea>
                                                 </div>
+                                                <has-error :form="form" field="bio"></has-error>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="photo" class="col-sm-2 coll-form-label">Photo</label>
+                                                <div class="col-sm-10">
+                                                    <input type="file" name="photo" class="form-control"
+                                                    :class="{ 'is-invalid': form.errors.has('photo') }" id="photo" @change="fileUpload">
+                                                </div>
+                                                <has-error :form="form" field="photo"></has-error>
                                             </div>
                                             <div class="form-group row">
                                                 <div class="offset-sm-2 col-sm-10">
-                                                    <button type="submit" class="btn btn-danger">Submit</button>
+                                                    <button type="submit" @click.prevent="updateProfile" class="btn btn-danger">Submit</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -291,6 +295,67 @@
     export default {
         mounted() {
             console.log('Component mounted.')
+        },
+        data() {
+            return {
+                form: new Form({
+                    id: '',
+                    name: '',
+                    email: '',
+                    password: '',
+                    type: '',
+                    bio: '',
+                    photo: ''
+                }),
+            }
+        },
+        methods: {
+            updateProfile() {
+                // Progress start
+                this.$Progress.start();
+
+                this.form.put('/api/profile')
+                .then( response => {
+                    
+                    // Progress finish
+                    this.$Progress.finish();
+                })
+                .catch( errors => {
+                    
+
+                    // Progress fail
+                    this.$Progress.fail();
+                });
+            },
+            fileUpload(e){
+                let file = e.target.files[0];
+                console.log(file);
+                if(file['size'] < 2111775)
+                {
+                    let reader = new FileReader();
+                    reader.onloadend = (file) => {
+                        // console.log('RESULT', reader.result);
+                        this.form.photo = reader.result;
+                    }
+                    reader.readAsDataURL(file);
+                }
+                else
+                {
+                    Swal.fire({
+                        title: 'Oops...',
+                        text: 'You are uploading a large file!',
+                        icon: 'error',
+                    })
+                }
+            },
+            getProfile()
+            {
+                this.form.get('/api/profile')
+                .then( response => this.form.fill(response.data.user));
+            }
+        },
+        created() {
+            this.getProfile();
         }
     }
 </script>

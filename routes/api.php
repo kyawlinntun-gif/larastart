@@ -23,4 +23,6 @@ Route::get('/user', 'Api\UserController@index');
 Route::post('/user', 'Api\UserController@store');
 Route::delete('/user/{id}', 'Api\UserController@destroy');
 Route::match(['put', 'patch'], '/user/{id}', 'Api\UserController@update');
+Route::get('/profile', 'Api\UserController@profile');
+Route::match(['put', 'patch'],'/profile', 'Api\UserController@profileUpdate');
 

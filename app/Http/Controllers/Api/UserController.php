@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Image;
 
 class UserController extends Controller
 {
@@ -80,6 +81,35 @@ class UserController extends Controller
         $user->bio = $request->bio;
         $request->photo ? $request->photo : false;
         $user->update();
+
+        return response([]);
+    }
+
+    public function profile()
+    {
+        $user = auth('api')->user();
+        return response(['user' => $user]);
+    }
+
+    public function profileUpdate(Request $request)
+    {
+        $user = auth('api')->user()->id;
+
+        if($request->photo)
+        {
+            $image = $request->photo;
+    
+            // Get extension
+            $extension = explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+    
+            // Create new filename
+            $filenameToStore =time() . '.' . $extension;
+    
+            // Storage image and Create path and Upload image
+
+            Image::make($image)->resize(1200, 1200)->save(public_path('img/profile/') . $filenameToStore);
+
+        }
 
         return response([]);
     }

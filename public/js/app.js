@@ -2277,9 +2277,74 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component mounted.');
+  },
+  data: function data() {
+    return {
+      form: new Form({
+        id: '',
+        name: '',
+        email: '',
+        password: '',
+        type: '',
+        bio: '',
+        photo: ''
+      })
+    };
+  },
+  methods: {
+    updateProfile: function updateProfile() {
+      var _this = this;
+
+      // Progress start
+      this.$Progress.start();
+      this.form.put('/api/profile').then(function (response) {
+        // Progress finish
+        _this.$Progress.finish();
+      })["catch"](function (errors) {
+        // Progress fail
+        _this.$Progress.fail();
+      });
+    },
+    fileUpload: function fileUpload(e) {
+      var _this2 = this;
+
+      var file = e.target.files[0];
+      console.log(file);
+
+      if (file['size'] < 2111775) {
+        var reader = new FileReader();
+
+        reader.onloadend = function (file) {
+          // console.log('RESULT', reader.result);
+          _this2.form.photo = reader.result;
+        };
+
+        reader.readAsDataURL(file);
+      } else {
+        Swal.fire({
+          title: 'Oops...',
+          text: 'You are uploading a large file!',
+          icon: 'error'
+        });
+      }
+    },
+    getProfile: function getProfile() {
+      var _this3 = this;
+
+      this.form.get('/api/profile').then(function (response) {
+        return _this3.form.fill(response.data.user);
+      });
+    }
+  },
+  created: function created() {
+    this.getProfile();
   }
 });
 
@@ -65192,621 +65257,744 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container mt-3" }, [
-      _c("section", { staticClass: "content" }, [
-        _c("div", { staticClass: "container-fluid" }, [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-md-3" }, [
-              _c("div", { staticClass: "card card-primary card-outline" }, [
-                _c("div", { staticClass: "card-body box-profile" }, [
-                  _c("div", { staticClass: "text-center" }, [
-                    _c("img", {
-                      staticClass: "profile-user-img img-fluid img-circle",
-                      attrs: {
-                        src: "/img/user4-128x128.jpg",
-                        alt: "User profile picture"
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("h3", { staticClass: "profile-username text-center" }, [
-                    _vm._v("Nina Mcintire")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "text-muted text-center" }, [
-                    _vm._v("Software Engineer")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "ul",
-                    { staticClass: "list-group list-group-unbordered mb-3" },
-                    [
-                      _c("li", { staticClass: "list-group-item" }, [
-                        _c("b", [_vm._v("Followers")]),
-                        _vm._v(" "),
-                        _c("a", { staticClass: "float-right" }, [
-                          _vm._v("1,322")
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "list-group-item" }, [
-                        _c("b", [_vm._v("Following")]),
-                        _vm._v(" "),
-                        _c("a", { staticClass: "float-right" }, [_vm._v("543")])
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "list-group-item" }, [
-                        _c("b", [_vm._v("Friends")]),
-                        _vm._v(" "),
-                        _c("a", { staticClass: "float-right" }, [
-                          _vm._v("13,287")
-                        ])
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "btn btn-primary btn-block",
-                      attrs: { href: "#" }
-                    },
-                    [_c("b", [_vm._v("Follow")])]
-                  )
-                ])
-              ]),
+  return _c("div", { staticClass: "container mt-3" }, [
+    _c("section", { staticClass: "content" }, [
+      _c("div", { staticClass: "container-fluid" }, [
+        _c("div", { staticClass: "row" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-9" }, [
+            _c("div", { staticClass: "card" }, [
+              _vm._m(1),
               _vm._v(" "),
-              _c("div", { staticClass: "card card-primary" }, [
-                _c("div", { staticClass: "card-header" }, [
-                  _c("h3", { staticClass: "card-title" }, [_vm._v("About Me")])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "card-body" }, [
-                  _c("strong", [
-                    _c("i", { staticClass: "fas fa-book mr-1" }),
-                    _vm._v(" Education")
-                  ]),
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "tab-content" }, [
+                  _vm._m(2),
                   _vm._v(" "),
-                  _c("p", { staticClass: "text-muted" }, [
-                    _vm._v(
-                      "\n                                B.S. in Computer Science from the University of Tennessee at Knoxville\n                            "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("hr"),
-                  _vm._v(" "),
-                  _c("strong", [
-                    _c("i", { staticClass: "fas fa-map-marker-alt mr-1" }),
-                    _vm._v(" Location")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "text-muted" }, [
-                    _vm._v("Malibu, California")
-                  ]),
-                  _vm._v(" "),
-                  _c("hr"),
-                  _vm._v(" "),
-                  _c("strong", [
-                    _c("i", { staticClass: "fas fa-pencil-alt mr-1" }),
-                    _vm._v(" Skills")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "text-muted" }, [
-                    _c("span", { staticClass: "tag tag-danger" }, [
-                      _vm._v("UI Design")
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "tag tag-success" }, [
-                      _vm._v("Coding")
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "tag tag-info" }, [
-                      _vm._v("Javascript")
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "tag tag-warning" }, [
-                      _vm._v("PHP")
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "tag tag-primary" }, [
-                      _vm._v("Node.js")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("hr"),
-                  _vm._v(" "),
-                  _c("strong", [
-                    _c("i", { staticClass: "far fa-file-alt mr-1" }),
-                    _vm._v(" Notes")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "text-muted" }, [
-                    _vm._v(
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam\n                                fermentum enim neque."
-                    )
-                  ])
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-9" }, [
-              _c("div", { staticClass: "card" }, [
-                _c("div", { staticClass: "card-header p-2" }, [
-                  _c("ul", { staticClass: "nav nav-pills" }, [
-                    _c("li", { staticClass: "nav-item" }, [
-                      _c(
-                        "a",
-                        {
-                          staticClass: "nav-link active",
-                          attrs: { href: "#activity", "data-toggle": "tab" }
-                        },
-                        [_vm._v("Activity")]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("li", { staticClass: "nav-item" }, [
-                      _c(
-                        "a",
-                        {
-                          staticClass: "nav-link",
-                          attrs: { href: "#settings", "data-toggle": "tab" }
-                        },
-                        [_vm._v("Settings")]
-                      )
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "card-body" }, [
-                  _c("div", { staticClass: "tab-content" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass: "active tab-pane",
-                        attrs: { id: "activity" }
-                      },
-                      [
-                        _c("div", { staticClass: "post" }, [
-                          _c("div", { staticClass: "user-block" }, [
-                            _c("img", {
-                              staticClass: "img-circle img-bordered-sm",
-                              attrs: { src: "", alt: "user image" }
-                            }),
-                            _vm._v(" "),
-                            _c("span", { staticClass: "username" }, [
-                              _c("a", { attrs: { href: "#" } }, [
-                                _vm._v("Jonathan Burke Jr.")
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "a",
-                                {
-                                  staticClass: "float-right btn-tool",
-                                  attrs: { href: "#" }
-                                },
-                                [_c("i", { staticClass: "fas fa-times" })]
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("span", { staticClass: "description" }, [
-                              _vm._v("Shared publicly - 7:30 PM today")
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("p", [
-                            _vm._v(
-                              "\n                                            Lorem ipsum represents a long-held tradition for designers,\n                                            typographers and the like. Some people hate it and argue for\n                                            its demise, but others ignore the hate as they create awesome\n                                            tools to help create filler text for everyone from bacon lovers\n                                            to Charlie Sheen fans.\n                                        "
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("p", [
-                            _c(
-                              "a",
-                              {
-                                staticClass: "link-black text-sm mr-2",
-                                attrs: { href: "#" }
-                              },
-                              [
-                                _c("i", { staticClass: "fas fa-share mr-1" }),
-                                _vm._v(" Share")
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                staticClass: "link-black text-sm",
-                                attrs: { href: "#" }
-                              },
-                              [
-                                _c("i", {
-                                  staticClass: "far fa-thumbs-up mr-1"
-                                }),
-                                _vm._v(" Like")
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c("span", { staticClass: "float-right" }, [
-                              _c(
-                                "a",
-                                {
-                                  staticClass: "link-black text-sm",
-                                  attrs: { href: "#" }
-                                },
-                                [
-                                  _c("i", {
-                                    staticClass: "far fa-comments mr-1"
-                                  }),
-                                  _vm._v(
-                                    " Comments (5)\n                                                "
-                                  )
-                                ]
-                              )
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("input", {
-                            staticClass: "form-control form-control-sm",
-                            attrs: {
-                              type: "text",
-                              placeholder: "Type a comment"
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "post clearfix" }, [
-                          _c("div", { staticClass: "user-block" }, [
-                            _c("img", {
-                              staticClass: "img-circle img-bordered-sm",
-                              attrs: { src: "", alt: "User Image" }
-                            }),
-                            _vm._v(" "),
-                            _c("span", { staticClass: "username" }, [
-                              _c("a", { attrs: { href: "#" } }, [
-                                _vm._v("Sarah Ross")
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "a",
-                                {
-                                  staticClass: "float-right btn-tool",
-                                  attrs: { href: "#" }
-                                },
-                                [_c("i", { staticClass: "fas fa-times" })]
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("span", { staticClass: "description" }, [
-                              _vm._v("Sent you a message - 3 days ago")
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("p", [
-                            _vm._v(
-                              "\n                                            Lorem ipsum represents a long-held tradition for designers,\n                                            typographers and the like. Some people hate it and argue for\n                                            its demise, but others ignore the hate as they create awesome\n                                            tools to help create filler text for everyone from bacon lovers\n                                            to Charlie Sheen fans.\n                                        "
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("form", { staticClass: "form-horizontal" }, [
-                            _c(
-                              "div",
-                              {
-                                staticClass: "input-group input-group-sm mb-0"
-                              },
-                              [
-                                _c("input", {
-                                  staticClass: "form-control form-control-sm",
-                                  attrs: { placeholder: "Response" }
-                                }),
-                                _vm._v(" "),
-                                _c(
-                                  "div",
-                                  { staticClass: "input-group-append" },
-                                  [
-                                    _c(
-                                      "button",
-                                      {
-                                        staticClass: "btn btn-danger",
-                                        attrs: { type: "submit" }
-                                      },
-                                      [_vm._v("Send")]
-                                    )
-                                  ]
-                                )
-                              ]
-                            )
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "post" }, [
-                          _c("div", { staticClass: "user-block" }, [
-                            _c("img", {
-                              staticClass: "img-circle img-bordered-sm",
-                              attrs: { src: "", alt: "User Image" }
-                            }),
-                            _vm._v(" "),
-                            _c("span", { staticClass: "username" }, [
-                              _c("a", { attrs: { href: "#" } }, [
-                                _vm._v("Adam Jones")
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "a",
-                                {
-                                  staticClass: "float-right btn-tool",
-                                  attrs: { href: "#" }
-                                },
-                                [_c("i", { staticClass: "fas fa-times" })]
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("span", { staticClass: "description" }, [
-                              _vm._v("Posted 5 photos - 5 days ago")
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "row mb-3" }, [
-                            _c("div", { staticClass: "col-sm-6" }, [
-                              _c("img", {
-                                staticClass: "img-fluid",
-                                attrs: { src: "", alt: "Photo" }
-                              })
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-sm-6" }, [
-                              _c("div", { staticClass: "row" }, [
-                                _c("div", { staticClass: "col-sm-6" }, [
-                                  _c("img", {
-                                    staticClass: "img-fluid mb-3",
-                                    attrs: { src: "", alt: "Photo" }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("img", {
-                                    staticClass: "img-fluid",
-                                    attrs: { src: "", alt: "Photo" }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "col-sm-6" }, [
-                                  _c("img", {
-                                    staticClass: "img-fluid mb-3",
-                                    attrs: { src: "", alt: "Photo" }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("img", {
-                                    staticClass: "img-fluid",
-                                    attrs: { src: "", alt: "Photo" }
-                                  })
-                                ])
-                              ])
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("p", [
-                            _c(
-                              "a",
-                              {
-                                staticClass: "link-black text-sm mr-2",
-                                attrs: { href: "#" }
-                              },
-                              [
-                                _c("i", { staticClass: "fas fa-share mr-1" }),
-                                _vm._v(" Share")
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                staticClass: "link-black text-sm",
-                                attrs: { href: "#" }
-                              },
-                              [
-                                _c("i", {
-                                  staticClass: "far fa-thumbs-up mr-1"
-                                }),
-                                _vm._v(" Like")
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c("span", { staticClass: "float-right" }, [
-                              _c(
-                                "a",
-                                {
-                                  staticClass: "link-black text-sm",
-                                  attrs: { href: "#" }
-                                },
-                                [
-                                  _c("i", {
-                                    staticClass: "far fa-comments mr-1"
-                                  }),
-                                  _vm._v(
-                                    " Comments (5)\n                                                "
-                                  )
-                                ]
-                              )
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("input", {
-                            staticClass: "form-control form-control-sm",
-                            attrs: {
-                              type: "text",
-                              placeholder: "Type a comment"
-                            }
-                          })
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "tab-pane", attrs: { id: "settings" } },
-                      [
-                        _c("form", { staticClass: "form-horizontal" }, [
-                          _c("div", { staticClass: "form-group row" }, [
+                  _c(
+                    "div",
+                    { staticClass: "tab-pane", attrs: { id: "settings" } },
+                    [
+                      _c("form", { staticClass: "form-horizontal" }, [
+                        _c(
+                          "div",
+                          { staticClass: "form-group row" },
+                          [
                             _c(
                               "label",
                               {
                                 staticClass: "col-sm-2 col-form-label",
-                                attrs: { for: "inputName" }
+                                attrs: { for: "name" }
                               },
                               [_vm._v("Name")]
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-10" }, [
                               _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.form.name,
+                                    expression: "form.name"
+                                  }
+                                ],
                                 staticClass: "form-control",
+                                class: {
+                                  "is-invalid": _vm.form.errors.has("name")
+                                },
                                 attrs: {
                                   type: "email",
-                                  id: "inputName",
+                                  id: "name",
                                   placeholder: "Name"
+                                },
+                                domProps: { value: _vm.form.name },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.form,
+                                      "name",
+                                      $event.target.value
+                                    )
+                                  }
                                 }
                               })
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "form-group row" }, [
+                            ]),
+                            _vm._v(" "),
+                            _c("has-error", {
+                              attrs: { form: _vm.form, field: "name" }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "form-group row" },
+                          [
                             _c(
                               "label",
                               {
                                 staticClass: "col-sm-2 col-form-label",
-                                attrs: { for: "inputEmail" }
+                                attrs: { for: "email" }
                               },
                               [_vm._v("Email")]
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-10" }, [
                               _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.form.email,
+                                    expression: "form.email"
+                                  }
+                                ],
                                 staticClass: "form-control",
+                                class: {
+                                  "is-invalid": _vm.form.errors.has("email")
+                                },
                                 attrs: {
                                   type: "email",
-                                  id: "inputEmail",
+                                  id: "email",
                                   placeholder: "Email"
+                                },
+                                domProps: { value: _vm.form.email },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.form,
+                                      "email",
+                                      $event.target.value
+                                    )
+                                  }
                                 }
                               })
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "form-group row" }, [
-                            _c(
-                              "label",
-                              {
-                                staticClass: "col-sm-2 col-form-label",
-                                attrs: { for: "inputName2" }
-                              },
-                              [_vm._v("Name")]
-                            ),
+                            ]),
                             _vm._v(" "),
-                            _c("div", { staticClass: "col-sm-10" }, [
-                              _c("input", {
-                                staticClass: "form-control",
-                                attrs: {
-                                  type: "text",
-                                  id: "inputName2",
-                                  placeholder: "Name"
-                                }
-                              })
-                            ])
-                          ]),
+                            _c("has-error", {
+                              attrs: { form: _vm.form, field: "email" }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _vm._m(3),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group row" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "col-sm-2 col-form-label",
+                              attrs: { for: "type" }
+                            },
+                            [_vm._v("Type")]
+                          ),
                           _vm._v(" "),
-                          _c("div", { staticClass: "form-group row" }, [
+                          _c(
+                            "div",
+                            { staticClass: "col-sm-10" },
+                            [
+                              _c(
+                                "select",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.form.type,
+                                      expression: "form.type"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  class: {
+                                    "is-invalid": _vm.form.errors.has("type")
+                                  },
+                                  attrs: { name: "type", id: "type" },
+                                  on: {
+                                    change: function($event) {
+                                      var $$selectedVal = Array.prototype.filter
+                                        .call($event.target.options, function(
+                                          o
+                                        ) {
+                                          return o.selected
+                                        })
+                                        .map(function(o) {
+                                          var val =
+                                            "_value" in o ? o._value : o.value
+                                          return val
+                                        })
+                                      _vm.$set(
+                                        _vm.form,
+                                        "type",
+                                        $event.target.multiple
+                                          ? $$selectedVal
+                                          : $$selectedVal[0]
+                                      )
+                                    }
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "option",
+                                    {
+                                      attrs: { value: "admin" },
+                                      domProps: {
+                                        selected: {
+                                          selected: _vm.form.type == "admin"
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Admin")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    {
+                                      attrs: { value: "author" },
+                                      domProps: {
+                                        selected: {
+                                          selected: _vm.form.type == "author"
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Author")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    {
+                                      attrs: { value: "user" },
+                                      domProps: {
+                                        selected: {
+                                          selected: _vm.form.type == "user"
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Standard User")]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("has-error", {
+                                attrs: { form: _vm.form, field: "type" }
+                              })
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "form-group row" },
+                          [
                             _c(
                               "label",
                               {
-                                staticClass: "col-sm-2 col-form-label",
-                                attrs: { for: "inputExperience" }
+                                staticClass: "col-sm-2 coll-form-label",
+                                attrs: { for: "bio" }
                               },
-                              [_vm._v("Experience")]
+                              [_vm._v("Bio")]
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-10" }, [
                               _c("textarea", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.form.bio,
+                                    expression: "form.bio"
+                                  }
+                                ],
                                 staticClass: "form-control",
+                                class: {
+                                  "is-invalid": _vm.form.errors.has("bio")
+                                },
                                 attrs: {
-                                  id: "inputExperience",
-                                  placeholder: "Experience"
+                                  name: "bio",
+                                  id: "bio",
+                                  cols: "30",
+                                  rows: "5"
+                                },
+                                domProps: { value: _vm.form.bio },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.form,
+                                      "bio",
+                                      $event.target.value
+                                    )
+                                  }
                                 }
                               })
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "form-group row" }, [
+                            ]),
+                            _vm._v(" "),
+                            _c("has-error", {
+                              attrs: { form: _vm.form, field: "bio" }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "form-group row" },
+                          [
                             _c(
                               "label",
                               {
-                                staticClass: "col-sm-2 col-form-label",
-                                attrs: { for: "inputSkills" }
+                                staticClass: "col-sm-2 coll-form-label",
+                                attrs: { for: "photo" }
                               },
-                              [_vm._v("Skills")]
+                              [_vm._v("Photo")]
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-10" }, [
                               _c("input", {
                                 staticClass: "form-control",
+                                class: {
+                                  "is-invalid": _vm.form.errors.has("photo")
+                                },
                                 attrs: {
-                                  type: "text",
-                                  id: "inputSkills",
-                                  placeholder: "Skills"
-                                }
+                                  type: "file",
+                                  name: "photo",
+                                  id: "photo"
+                                },
+                                on: { change: _vm.fileUpload }
                               })
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "form-group row" }, [
+                            ]),
+                            _vm._v(" "),
+                            _c("has-error", {
+                              attrs: { form: _vm.form, field: "photo" }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group row" }, [
+                          _c("div", { staticClass: "offset-sm-2 col-sm-10" }, [
                             _c(
-                              "div",
-                              { staticClass: "offset-sm-2 col-sm-10" },
-                              [
-                                _c("div", { staticClass: "checkbox" }, [
-                                  _c("label", [
-                                    _c("input", {
-                                      attrs: { type: "checkbox" }
-                                    }),
-                                    _vm._v(" I agree to the "),
-                                    _c("a", { attrs: { href: "#" } }, [
-                                      _vm._v(
-                                        "terms and\n                                                            conditions"
-                                      )
-                                    ])
-                                  ])
-                                ])
-                              ]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "form-group row" }, [
-                            _c(
-                              "div",
-                              { staticClass: "offset-sm-2 col-sm-10" },
-                              [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-danger",
-                                    attrs: { type: "submit" }
-                                  },
-                                  [_vm._v("Submit")]
-                                )
-                              ]
+                              "button",
+                              {
+                                staticClass: "btn btn-danger",
+                                attrs: { type: "submit" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.updateProfile($event)
+                                  }
+                                }
+                              },
+                              [_vm._v("Submit")]
                             )
                           ])
                         ])
-                      ]
-                    )
-                  ])
+                      ])
+                    ]
+                  )
                 ])
               ])
             ])
           ])
         ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-3" }, [
+      _c("div", { staticClass: "card card-primary card-outline" }, [
+        _c("div", { staticClass: "card-body box-profile" }, [
+          _c("div", { staticClass: "text-center" }, [
+            _c("img", {
+              staticClass: "profile-user-img img-fluid img-circle",
+              attrs: {
+                src: "/img/user4-128x128.jpg",
+                alt: "User profile picture"
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("h3", { staticClass: "profile-username text-center" }, [
+            _vm._v("Nina Mcintire")
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "text-muted text-center" }, [
+            _vm._v("Software Engineer")
+          ]),
+          _vm._v(" "),
+          _c("ul", { staticClass: "list-group list-group-unbordered mb-3" }, [
+            _c("li", { staticClass: "list-group-item" }, [
+              _c("b", [_vm._v("Followers")]),
+              _vm._v(" "),
+              _c("a", { staticClass: "float-right" }, [_vm._v("1,322")])
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "list-group-item" }, [
+              _c("b", [_vm._v("Following")]),
+              _vm._v(" "),
+              _c("a", { staticClass: "float-right" }, [_vm._v("543")])
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "list-group-item" }, [
+              _c("b", [_vm._v("Friends")]),
+              _vm._v(" "),
+              _c("a", { staticClass: "float-right" }, [_vm._v("13,287")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "a",
+            { staticClass: "btn btn-primary btn-block", attrs: { href: "#" } },
+            [_c("b", [_vm._v("Follow")])]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card card-primary" }, [
+        _c("div", { staticClass: "card-header" }, [
+          _c("h3", { staticClass: "card-title" }, [_vm._v("About Me")])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c("strong", [
+            _c("i", { staticClass: "fas fa-book mr-1" }),
+            _vm._v(" Education")
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "text-muted" }, [
+            _vm._v(
+              "\n                                B.S. in Computer Science from the University of Tennessee at Knoxville\n                            "
+            )
+          ]),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _c("strong", [
+            _c("i", { staticClass: "fas fa-map-marker-alt mr-1" }),
+            _vm._v(" Location")
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "text-muted" }, [
+            _vm._v("Malibu, California")
+          ]),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _c("strong", [
+            _c("i", { staticClass: "fas fa-pencil-alt mr-1" }),
+            _vm._v(" Skills")
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "text-muted" }, [
+            _c("span", { staticClass: "tag tag-danger" }, [
+              _vm._v("UI Design")
+            ]),
+            _vm._v(" "),
+            _c("span", { staticClass: "tag tag-success" }, [_vm._v("Coding")]),
+            _vm._v(" "),
+            _c("span", { staticClass: "tag tag-info" }, [_vm._v("Javascript")]),
+            _vm._v(" "),
+            _c("span", { staticClass: "tag tag-warning" }, [_vm._v("PHP")]),
+            _vm._v(" "),
+            _c("span", { staticClass: "tag tag-primary" }, [_vm._v("Node.js")])
+          ]),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _c("strong", [
+            _c("i", { staticClass: "far fa-file-alt mr-1" }),
+            _vm._v(" Notes")
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "text-muted" }, [
+            _vm._v(
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam\n                                fermentum enim neque."
+            )
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header p-2" }, [
+      _c("ul", { staticClass: "nav nav-pills" }, [
+        _c("li", { staticClass: "nav-item" }, [
+          _c(
+            "a",
+            {
+              staticClass: "nav-link active",
+              attrs: { href: "#activity", "data-toggle": "tab" }
+            },
+            [_vm._v("Activity")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "nav-item" }, [
+          _c(
+            "a",
+            {
+              staticClass: "nav-link",
+              attrs: { href: "#settings", "data-toggle": "tab" }
+            },
+            [_vm._v("Settings")]
+          )
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "active tab-pane", attrs: { id: "activity" } },
+      [
+        _c("div", { staticClass: "post" }, [
+          _c("div", { staticClass: "user-block" }, [
+            _c("img", {
+              staticClass: "img-circle img-bordered-sm",
+              attrs: { src: "", alt: "user image" }
+            }),
+            _vm._v(" "),
+            _c("span", { staticClass: "username" }, [
+              _c("a", { attrs: { href: "#" } }, [_vm._v("Jonathan Burke Jr.")]),
+              _vm._v(" "),
+              _c(
+                "a",
+                { staticClass: "float-right btn-tool", attrs: { href: "#" } },
+                [_c("i", { staticClass: "fas fa-times" })]
+              )
+            ]),
+            _vm._v(" "),
+            _c("span", { staticClass: "description" }, [
+              _vm._v("Shared publicly - 7:30 PM today")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "\n                                            Lorem ipsum represents a long-held tradition for designers,\n                                            typographers and the like. Some people hate it and argue for\n                                            its demise, but others ignore the hate as they create awesome\n                                            tools to help create filler text for everyone from bacon lovers\n                                            to Charlie Sheen fans.\n                                        "
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _c(
+              "a",
+              { staticClass: "link-black text-sm mr-2", attrs: { href: "#" } },
+              [_c("i", { staticClass: "fas fa-share mr-1" }), _vm._v(" Share")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              { staticClass: "link-black text-sm", attrs: { href: "#" } },
+              [
+                _c("i", { staticClass: "far fa-thumbs-up mr-1" }),
+                _vm._v(" Like")
+              ]
+            ),
+            _vm._v(" "),
+            _c("span", { staticClass: "float-right" }, [
+              _c(
+                "a",
+                { staticClass: "link-black text-sm", attrs: { href: "#" } },
+                [
+                  _c("i", { staticClass: "far fa-comments mr-1" }),
+                  _vm._v(
+                    " Comments (5)\n                                                "
+                  )
+                ]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "form-control form-control-sm",
+            attrs: { type: "text", placeholder: "Type a comment" }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "post clearfix" }, [
+          _c("div", { staticClass: "user-block" }, [
+            _c("img", {
+              staticClass: "img-circle img-bordered-sm",
+              attrs: { src: "", alt: "User Image" }
+            }),
+            _vm._v(" "),
+            _c("span", { staticClass: "username" }, [
+              _c("a", { attrs: { href: "#" } }, [_vm._v("Sarah Ross")]),
+              _vm._v(" "),
+              _c(
+                "a",
+                { staticClass: "float-right btn-tool", attrs: { href: "#" } },
+                [_c("i", { staticClass: "fas fa-times" })]
+              )
+            ]),
+            _vm._v(" "),
+            _c("span", { staticClass: "description" }, [
+              _vm._v("Sent you a message - 3 days ago")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "\n                                            Lorem ipsum represents a long-held tradition for designers,\n                                            typographers and the like. Some people hate it and argue for\n                                            its demise, but others ignore the hate as they create awesome\n                                            tools to help create filler text for everyone from bacon lovers\n                                            to Charlie Sheen fans.\n                                        "
+            )
+          ]),
+          _vm._v(" "),
+          _c("form", { staticClass: "form-horizontal" }, [
+            _c("div", { staticClass: "input-group input-group-sm mb-0" }, [
+              _c("input", {
+                staticClass: "form-control form-control-sm",
+                attrs: { placeholder: "Response" }
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-group-append" }, [
+                _c(
+                  "button",
+                  { staticClass: "btn btn-danger", attrs: { type: "submit" } },
+                  [_vm._v("Send")]
+                )
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "post" }, [
+          _c("div", { staticClass: "user-block" }, [
+            _c("img", {
+              staticClass: "img-circle img-bordered-sm",
+              attrs: { src: "", alt: "User Image" }
+            }),
+            _vm._v(" "),
+            _c("span", { staticClass: "username" }, [
+              _c("a", { attrs: { href: "#" } }, [_vm._v("Adam Jones")]),
+              _vm._v(" "),
+              _c(
+                "a",
+                { staticClass: "float-right btn-tool", attrs: { href: "#" } },
+                [_c("i", { staticClass: "fas fa-times" })]
+              )
+            ]),
+            _vm._v(" "),
+            _c("span", { staticClass: "description" }, [
+              _vm._v("Posted 5 photos - 5 days ago")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row mb-3" }, [
+            _c("div", { staticClass: "col-sm-6" }, [
+              _c("img", {
+                staticClass: "img-fluid",
+                attrs: { src: "", alt: "Photo" }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-sm-6" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-sm-6" }, [
+                  _c("img", {
+                    staticClass: "img-fluid mb-3",
+                    attrs: { src: "", alt: "Photo" }
+                  }),
+                  _vm._v(" "),
+                  _c("img", {
+                    staticClass: "img-fluid",
+                    attrs: { src: "", alt: "Photo" }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-sm-6" }, [
+                  _c("img", {
+                    staticClass: "img-fluid mb-3",
+                    attrs: { src: "", alt: "Photo" }
+                  }),
+                  _vm._v(" "),
+                  _c("img", {
+                    staticClass: "img-fluid",
+                    attrs: { src: "", alt: "Photo" }
+                  })
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _c(
+              "a",
+              { staticClass: "link-black text-sm mr-2", attrs: { href: "#" } },
+              [_c("i", { staticClass: "fas fa-share mr-1" }), _vm._v(" Share")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              { staticClass: "link-black text-sm", attrs: { href: "#" } },
+              [
+                _c("i", { staticClass: "far fa-thumbs-up mr-1" }),
+                _vm._v(" Like")
+              ]
+            ),
+            _vm._v(" "),
+            _c("span", { staticClass: "float-right" }, [
+              _c(
+                "a",
+                { staticClass: "link-black text-sm", attrs: { href: "#" } },
+                [
+                  _c("i", { staticClass: "far fa-comments mr-1" }),
+                  _vm._v(
+                    " Comments (5)\n                                                "
+                  )
+                ]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "form-control form-control-sm",
+            attrs: { type: "text", placeholder: "Type a comment" }
+          })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group row" }, [
+      _c(
+        "label",
+        {
+          staticClass: "col-sm-2 col-form-label",
+          attrs: { for: "inputExperience" }
+        },
+        [_vm._v("Experience")]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-10" }, [
+        _c("textarea", {
+          staticClass: "form-control",
+          attrs: { id: "inputExperience", placeholder: "Experience" }
+        })
       ])
     ])
   }
